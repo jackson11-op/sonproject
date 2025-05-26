@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masa Kullanım Süresi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e0f7fa, #b2ebf2);
+      color: #004d40;
+      text-align: center;
+      padding: 50px 20px;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 6vw;
+      margin-bottom: 10px;
+    }
+
+    p.description {
+      font-size: 4vw;
+      margin-bottom: 40px;
+    }
+
+    #timer {
+      font-size: 10vw;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #00695c;
+      background: #ffffffcc;
+      padding: 20px;
+      border-radius: 15px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    #message {
+      font-size: 6vw;
+      color: #d32f2f;
+      display: none;
+      background: #fff3e0;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 30px;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📚 Masa Kullanım Süresi Başladı</h1>
+  <p class="description">Bu masayı en fazla 2 saat kullanabilirsiniz. Lütfen süre sonunda alanı boşaltınız.</p>
+
+  <div id="timer">02:00:00</div>
+
+  <div id="message">🔔 Süreniz doldu!<br>Lütfen masayı boşaltınız 🎵</div>
+
+  <!-- Hababam Sınıfı müziği (YouTube'dan mp3'e çevrilmiş link) -->
+  <audio id="alarmSound">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Tarayıcınız ses çalmayı desteklemiyor.
+  </audio>
+
+  <script>
+    let seconds = 2 * 60 * 60; // 2 saat = 7200 saniye
+
+    function formatTime(s) {
+      const h = String(Math.floor(s / 3600)).padStart(2, '0');
+      const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+      const sec = String(s % 60).padStart(2, '0');
+      return `${h}:${m}:${sec}`;
+    }
+
+    const timerDiv = document.getElementById("timer");
+    const messageDiv = document.getElementById("message");
+    const alarm = document.getElementById("alarmSound");
+
+    const countdown = setInterval(() => {
+      seconds--;
+      timerDiv.textContent = formatTime(seconds);
+
+      if (seconds <= 0) {
+        clearInterval(countdown);
+        timerDiv.style.display = "none";
+        messageDiv.style.display = "block";
+        alarm.play();
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
